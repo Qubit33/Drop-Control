@@ -1,0 +1,21 @@
+<p data-time="5">Something's got a hold of me lately<br>No, I don’t know myself anymore</p>
+<p data-time="12">Feels like the walls are all closin' in<br>And the devil’s knockin' at my door, whoa</p>
+<p data-time="20">Out of my mind, how many times did I tell you<br>I’m no good at bein’ alone?</p>
+<p data-time="32">Yeah, it's taken a toll on me, tryin' my best to keep<br>From tearin' the skin off my bones, don’t you know</p>
+
+<p data-time="33">I lose control<br>When you're not next to me<br>I'm fallin' apart right in front of you, can't you see?</p>
+<p data-time="43">I lose control<br>When you're not here with me, mm‑hmm<br>Yeah, you're breakin' my heart, baby<br>You make a mess of me</p>
+
+<p data-time="55">Problematic, the problem is I want your body like every day<br>You don't understand the static I’m messin' bad with, can’t stay away</p>
+<p data-time="65">So I keep on comin' back, you keep on comin' back<br>Pullin’ me further off the track, no, I just can’t help myself</p>
+
+<p data-time="74">I lose control<br>When you're not next to me<br>I'm fallin' apart right in front of you, can't you see?</p>
+<p data-time="84">I lose control<br>When you're not here with me, mm‑hmm<br>Yeah, you're breakin' my heart, baby<br>You make a mess of me</p>
+
+<p data-time="96">I walk the line<br>I try it all the time<br>But you're always on my mind<br>I can't resist it</p>
+
+<p data-time="106">I lose control<br>When you're not next to me<br>I'm fallin' apart right in front of you, can't you see?</p>
+<p data-time="116">I lose control<br>When you're not here with me<br>Yeah, you're breakin' my heart, baby<br>You make a mess of me</p>
+
+<p data-time="128">I lose control<br>When you're not next to me<br>I'm fallin' apart right in front of you, can't you see?</p>
+<p data-time="138">I lose control<br>When you're not here with me, mm‑hmm<br>Yeah, you're breakin' my heart, baby<br>You make a mess of me</p>
