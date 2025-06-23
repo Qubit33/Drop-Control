@@ -1,41 +1,53 @@
 const audio = document.getElementById('audio');
 const playBtn = document.getElementById('playBtn');
-const lyrics = document.querySelectorAll('#lyrics p');
+const lyricsContainer = document.getElementById('lyrics');
 
-playBtn.addEventListener('click', () => {
-  if (audio.paused) {
-    audio.play();
-    playBtn.textContent = '⏸️ Pause';
-  } else {
-    audio.pause();
-    playBtn.textContent = '▶️ Play';
-  }
-});
+fetch('Audio/Lose-Control.txt')
+  .then(res => res.text())
+  .then(html => {
+    lyricsContainer.innerHTML = html;
 
-audio.addEventListener('timeupdate', () => {
-  let currentTime = audio.currentTime;
+    const lyrics = lyricsContainer.querySelectorAll('p');
 
-  lyrics.forEach(p => {
-    const time = parseFloat(p.getAttribute('data-time'));
-    if (currentTime >= time) {
-      lyrics.forEach(el => el.classList.remove('active'));
-      p.classList.add('active');
-    }
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        playBtn.textContent = '⏸️ Pause';
+      } else {
+        audio.pause();
+        playBtn.textContent = '▶️ Play';
+      }
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      let currentTime = audio.currentTime;
+
+      lyrics.forEach((p, index) => {
+        const time = parseFloat(p.getAttribute('data-time'));
+        const next = lyrics[index + 1];
+        const nextTime = next ? parseFloat(next.getAttribute('data-time')) : Infinity;
+
+        if (currentTime >= time && currentTime < nextTime) {
+          lyrics.forEach(el => el.classList.remove('active'));
+          p.classList.add('active');
+          p.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
+
+    audio.addEventListener('ended', () => {
+      playBtn.textContent = '▶️ Play';
+    });
+
+    window.addEventListener('beforeunload', () => {
+      audio.pause();
+      audio.currentTime = 0;
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    });
   });
-});
-
-audio.addEventListener('ended', () => {
-  playBtn.textContent = '▶️ Play';
-});
-
-window.addEventListener('beforeunload', () => {
-  audio.pause();
-  audio.currentTime = 0; // opcional
-});
-
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) {
-    audio.pause();
-    audio.currentTime = 0; // opcional
-  }
-});
