@@ -1,27 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lose Control - Teddy Swims</title>
-  <link rel="stylesheet" href="Source/style.css" />
+  <title>Random Quantic</title>
+  <link rel="stylesheet" href="Source/assets/style.css" />
 </head>
-<body>
+<body onload="initGame()">
   <div class="container">
-    <h1>Lose Control</h1>
-    <h2>by Teddy Swims</h2>
-    <button id="playBtn">▶️ Play</button>
-    <div class="lyrics" id="lyrics">
-    <script>
+    <h2>Random System by:Qubit</h2>
+    <input type="number" id="Imput" value="1" disabled> Imput<br>
+    <input type="number" id="prob" step="0.0001" value="0" disabled> Probabilidade<br>
+    <div class="resultado" id="resultado">0</div>
+    <div class="score" id="score">Score: 0</div>
+    <button id="restartBtn" class="btn-restart" style="display: none;" onclick="restartGame()">Reiniciar Jogo</button>
+  </div>  
+  <canvas id="gameCanvas" width="400" height="200"></canvas>  
+  <div class="container">    
+    <h1>Lose Control</h1>  
+    <h2>by Teddy Swims</h2>  
+    <button id="playBtn">▶️ Play</button>  
+    <div class="lyrics" id="lyrics"></div>  
+    <audio id="audio" src="Audio/Lose-Control.mp3"></audio>  
+  </div>   
+  <script>
     fetch('Audio/Lose-Control.txt')
-    .then(res => res.text())
-    .then(html => {      
-     document.getElementById('lyrics').innerHTML = html;
-      });
-    </script>  
-    </div>
-  </div>
-  <audio id="audio" src="Audio/Lose-Control.mp3"></audio>
+      .then(res => res.text())
+      .then(text => {
+        document.getElementById('lyrics').innerHTML = text;});
+  </script>
   <script src="Java/Script.js"></script>
+  <script src="Source/System.html"></script>
 </body>
-</html>
+</html> 
