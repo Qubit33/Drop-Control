@@ -1,0 +1,138 @@
+// Variáveis globais
+let canvas, ctx, player, obstacle;
+let score = 0;
+let gameOver = false;
+let intervalGameLoop;
+let obstaclePassed = false;
+
+// Função para calcular a probabilidade e decidir se pula
+function calcular() {
+    if (gameOver) return;
+
+    let distancia = obstacle.x - player.x;
+    let p = 0;
+
+    if (distancia > 0 && distancia < 150) {
+        p = 1 - (distancia / 150);
+    }
+
+    p = Math.min(Math.max(p, 0), 1);
+    document.getElementById("prob").value = p.toFixed(4);
+
+    let resultadoQubit = Math.random() < p ? 1 : 0;
+    document.getElementById("resultado").innerText = resultadoQubit;
+
+    if (resultadoQubit === 1) jump();
+}
+
+// Inicialização após o carregamento da página
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("Imput").value = 1;
+    setInterval(calcular, 100);
+});
+
+// Função para iniciar o jogo
+function initGame() {
+    canvas = document.getElementById("gameCanvas");
+    ctx = canvas.getContext("2d");
+
+    player = {
+        x: 50,
+        y: 130,
+        width: 20,
+        height: 20,
+        velocityY: 0,
+        gravity: 0.5,
+        jumping: false
+    };
+
+    obstacle = {
+        x: 400,
+        y: 130,
+        width: 20,
+        height: 20
+    };
+
+    score = 0;
+    obstaclePassed = false;
+    gameOver = false;
+
+    document.getElementById("score").innerText = "Score: " + score;
+    document.getElementById("restartBtn").style.display = "none";
+
+    resizeCanvas();
+    
+    intervalGameLoop = setInterval(gameLoop, 20);
+}
+
+// Função para fazer o jogador pular
+function jump() {
+    if (!player.jumping) {
+        player.velocityY = -10;
+        player.jumping = true;
+    }
+}
+
+// Loop principal do jogo
+function gameLoop() {
+    if (gameOver) return;
+
+    // Limpa a tela
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Atualiza a física do jogador
+    player.velocityY += player.gravity;
+    player.y += player.velocityY;
+
+    if (player.y >= 130) {
+        player.y = 130;
+        player.jumping = false;
+    }
+
+    // Move obstáculo
+    obstacle.x -= 5;
+
+    // Resetar obstáculo se sair da tela
+    if (obstacle.x + obstacle.width < 0) {
+        obstacle.x = 400;
+        obstaclePassed = false;
+    }
+
+    // Contar ponto se passou do obstáculo
+    if (!obstaclePassed && obstacle.x + obstacle.width < player.x) {
+        score++;
+        document.getElementById("score").innerText = "Score: " + score;
+        obstaclePassed = true;
+    }
+
+    // Detecta colisão
+    if (
+        player.x < obstacle.x + obstacle.width &&
+        player.x + player.width > obstacle.x &&
+        player.y + player.height >= obstacle.y
+    ) {
+        gameOver = true;
+        clearInterval(intervalGameLoop);
+        alert("Game Over! Score: " + score);
+        document.getElementById("restartBtn").style.display = "block";
+    }
+
+    // Desenha jogador e obstáculo
+    ctx.fillStyle = "black";
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+    ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+}
+
+function resizeCanvas() {
+    const canvas = document.getElementById("gameCanvas");
+    const scale = Math.min(window.innerWidth / 400, window.innerHeight / 200);
+    canvas.style.transform = `scale(${scale})`;
+    canvas.style.transformOrigin = 'top left';
+}
+
+window.addEventListener('resize', resizeCanvas);
+
+// Função para reiniciar o jogo
+function restartGame() {
+    initGame();
+}
