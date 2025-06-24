@@ -30,7 +30,7 @@ fetch('Audio/Lose-Control.txt')
         if (currentTime >= time && currentTime < nextTime) {
           lyrics.forEach(el => el.classList.remove('active'));
           p.classList.add('active');
-          p.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // p.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Auto scroll removido
         }
       });
     });
@@ -51,5 +51,3 @@ fetch('Audio/Lose-Control.txt')
       }
     });
   });
-  
-  
