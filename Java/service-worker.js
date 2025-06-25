@@ -9,7 +9,7 @@ self.addEventListener('install', event => {
         './Java/Script.js',
         './Audio/Lose-Control.mp3',
         './Audio/Lose-Control.txt',
-        './Source/icon/icon-192.png',
+        './Source/icon/icon-128.png',
         './Source/icon/icon-512.png'
       ]);
     })
