@@ -1,11 +1,9 @@
-// Variáveis globais
 let canvas, ctx, player, obstacle;
 let score = 0;
 let gameOver = false;
 let intervalGameLoop;
 let obstaclePassed = false;
 
-// Função para calcular a probabilidade e decidir se pula
 function calcular() {
     if (gameOver) return;
 
@@ -25,13 +23,11 @@ function calcular() {
     if (resultadoQubit === 1) jump();
 }
 
-// Inicialização após o carregamento da página
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("Imput").value = 1;
     setInterval(calcular, 100);
 });
 
-// Função para iniciar o jogo
 function initGame() {
     canvas = document.getElementById("gameCanvas");
     ctx = canvas.getContext("2d");
@@ -65,7 +61,6 @@ function initGame() {
     intervalGameLoop = setInterval(gameLoop, 20);
 }
 
-// Função para fazer o jogador pular
 function jump() {
     if (!player.jumping) {
         player.velocityY = -10;
@@ -73,14 +68,11 @@ function jump() {
     }
 }
 
-// Loop principal do jogo
 function gameLoop() {
     if (gameOver) return;
 
-    // Limpa a tela
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Atualiza a física do jogador
     player.velocityY += player.gravity;
     player.y += player.velocityY;
 
@@ -89,23 +81,19 @@ function gameLoop() {
         player.jumping = false;
     }
 
-    // Move obstáculo
     obstacle.x -= 5;
 
-    // Resetar obstáculo se sair da tela
     if (obstacle.x + obstacle.width < 0) {
         obstacle.x = 400;
         obstaclePassed = false;
     }
 
-    // Contar ponto se passou do obstáculo
     if (!obstaclePassed && obstacle.x + obstacle.width < player.x) {
         score++;
         document.getElementById("score").innerText = "Score: " + score;
         obstaclePassed = true;
     }
 
-    // Detecta colisão
     if (
         player.x < obstacle.x + obstacle.width &&
         player.x + player.width > obstacle.x &&
@@ -117,7 +105,6 @@ function gameLoop() {
         document.getElementById("restartBtn").style.display = "block";
     }
 
-    // Desenha jogador e obstáculo
     ctx.fillStyle = "black";
     ctx.fillRect(player.x, player.y, player.width, player.height);
     ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
@@ -132,7 +119,6 @@ function resizeCanvas() {
 
 window.addEventListener('resize', resizeCanvas);
 
-// Função para reiniciar o jogo
 function restartGame() {
     initGame();
 }
