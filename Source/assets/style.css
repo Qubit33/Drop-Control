@@ -1,4 +1,3 @@
-/* Reset e estrutura base */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -17,7 +16,6 @@ html, body {
   line-height: 1.8;
 }
 
-/* Containers gerais (jogo e música) */
 .container, #gameContainer {
   max-width: 700px;
   width: 90%;
@@ -30,7 +28,6 @@ html, body {
   animation: fadeIn 2s ease-in;
 }
 
-/* Títulos */
 h1 {
   font-size: 2.5em;
   color: #f3c623;
@@ -43,7 +40,6 @@ h2 {
   margin-bottom: 20px;
 }
 
-/* Botões */
 button, .btn-restart, #restartBtn {
   padding: 10px 20px;
   margin-top: 20px;
@@ -61,7 +57,6 @@ button, .btn-restart, #restartBtn {
   display: none;
 }
 
-/* Inputs */
 input[type="number"] {
   font-size: 20px;
   padding: 10px;
@@ -72,7 +67,6 @@ input[type="number"] {
   border: none;
 }
 
-/* Canvas */
 canvas {
   display: block;
   margin: 20px auto;
@@ -81,14 +75,12 @@ canvas {
   max-width: 100%;
 }
 
-/* Placar */
 .score, #score {
   font-size: 24px;
   margin-top: 10px;
   font-weight: bold;
 }
 
-/* Resultado */
 .resultado {
   font-size: 60px;
   font-weight: bold;
@@ -97,7 +89,6 @@ canvas {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Letras da música */
 .lyrics p {
   margin: 20px 0;
   font-size: 1.1em;
@@ -112,7 +103,6 @@ canvas {
   opacity: 1;
 }
 
-/* Animação de entrada */
 @keyframes fadeIn {
   from {
     opacity: 0;
