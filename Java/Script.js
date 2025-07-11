@@ -1,13 +1,41 @@
 const audio = document.getElementById('audio');
 const playBtn = document.getElementById('playBtn');
+const languageSelect = document.getElementById('languageSelect');
 const lyricsContainer = document.getElementById('lyrics');
 
-fetch('Audio/Lose-Control.txt')
+let lyrics = [];
+
+function getLangCode(language) {
+  switch(language) {
+    case 'Portuguese': return 'Por';
+    case 'Spanish': return 'Spa';
+    case 'English': return 'Eng';
+    default: return 'Eng';
+  }
+}
+
+function loadDialogue(language) {
+  const fileName = `Audio/${language}/Dialogues_System_${getLangCode(language)}.txt`;
+
+  fetch(fileName)
+    .then(res => {
+      if (!res.ok) throw new Error(`Arquivo não encontrado: ${fileName}`);
+      return res.text();
+    })
+    .then(text => {
+      lyricsContainer.innerHTML = text;
+      lyrics = lyricsContainer.querySelectorAll('p');
+    })
+    .catch(err => {
+      lyricsContainer.innerHTML = `<p style="color:red;">Erro ao carregar: ${err.message}</p>`;
+    });
+}
+
+fetch('Audio/Portuguese/Dialogues_System_Por.txt')
   .then(res => res.text())
   .then(html => {
     lyricsContainer.innerHTML = html;
-
-    const lyrics = lyricsContainer.querySelectorAll('p');
+    lyrics = lyricsContainer.querySelectorAll('p');
 
     playBtn.addEventListener('click', () => {
       if (audio.paused) {
@@ -30,7 +58,6 @@ fetch('Audio/Lose-Control.txt')
         if (currentTime >= time && currentTime < nextTime) {
           lyrics.forEach(el => el.classList.remove('active'));
           p.classList.add('active');
-          // p.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Auto scroll removido
         }
       });
     });
@@ -51,3 +78,7 @@ fetch('Audio/Lose-Control.txt')
       }
     });
   });
+
+languageSelect.addEventListener('change', (e) => {
+  loadDialogue(e.target.value);
+});

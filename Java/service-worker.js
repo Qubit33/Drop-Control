@@ -7,8 +7,10 @@ self.addEventListener('install', event => {
         './index.html',
         './Source/assets/style.css',
         './Java/Script.js',
-        './Audio/Lose-Control.mp3',
-        './Audio/Lose-Control.txt',
+        './Audio/Intro.mp3',        
+        './Audio/English/Dialogues_System_Eng.txt',
+        './Audio/Portuguese/Dialogues_System_Por.txt',       
+        './Audio/Spanish/Dialogues_System_Spa.txt',
         './Source/icon/icon-128.png',
         './Source/icon/icon-512.png'
       ]);
