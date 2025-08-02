@@ -5,19 +5,26 @@ let intervalGameLoop;
 let obstaclePassed = false;
 
 function calcular() {
-    if (gameOver) return;
+    if (gameOver || player.jumping) return;
 
-    let distancia = obstacle.x - player.x;
+    const distance = obstacle.x - player.x;
+    const velocidadeObstaculo = 5;
+    const collision = distance / velocidadeObstaculo;
+
+    const climb = 10 / player.gravity / 2;
+
     let p = 0;
-
-    if (distancia > 0 && distancia < 150) {
-        p = 1 - (distancia / 150);
+    
+    if (distance > 0 && distance < 200) {
+        const diff = Math.abs(collision - climb);
+        p = 1 - (diff / climb);
     }
 
     p = Math.min(Math.max(p, 0), 1);
+
     document.getElementById("prob").value = p.toFixed(4);
 
-    let resultadoQubit = Math.random() < p ? 1 : 0;
+    const resultadoQubit = Math.random() < p ? 1 : 0;
     document.getElementById("resultado").innerText = resultadoQubit;
 
     if (resultadoQubit === 1) jump();
