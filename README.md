@@ -21,7 +21,7 @@ Drop-Control/
 ├── Java/
 │   └── Script.js
 ├── Audio/
-│   └── drop-control.mp3 (optional or legacy)
+│   └── Audio.mp3 (optional or legacy)
 ├── Source/
 │   ├── assets/style.css
 │   └── icon/
