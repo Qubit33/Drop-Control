@@ -5,7 +5,7 @@ let intervalGameLoop;
 let obstaclePassed = false;
 
 function calcular() {
-    if (gameOver || player.jumping) return;
+    if (gameOver || player.jumpping) return;
 
     const distance = obstacle.x - player.x;
     const velocidadeObstaculo = 5;
@@ -27,7 +27,7 @@ function calcular() {
     const resultadoQubit = Math.random() < p ? 1 : 0;
     document.getElementById("resultado").innerText = resultadoQubit;
 
-    if (resultadoQubit === 1) jump();
+    if (resultadoQubit === 1) jumpping();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -46,7 +46,7 @@ function initGame() {
         height: 20,
         velocityY: 0,
         gravity: 0.5,
-        jumping: false
+        jumpping: false
     };
 
     obstacle = {
@@ -68,10 +68,10 @@ function initGame() {
     intervalGameLoop = setInterval(gameLoop, 20);
 }
 
-function jump() {
-    if (!player.jumping) {
+function jumpping() {
+    if (!player.jumpping) {
         player.velocityY = -10;
-        player.jumping = true;
+        player.jumpping = true;
     }
 }
 
@@ -85,7 +85,7 @@ function gameLoop() {
 
     if (player.y >= 130) {
         player.y = 130;
-        player.jumping = false;
+        player.jumpping = false;
     }
 
     obstacle.x -= 5;
