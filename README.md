@@ -1,6 +1,6 @@
-# 🎮 Project: Drop Control
+# 🎮 Project: JUMPPING
 
-**Drop Control** is a project built with **HTML + JavaScript**, featuring real-time interactive and synchronized functionalities.
+**Jumpping** is a project built with **HTML + JavaScript**, featuring real-time interactive and synchronized functionalities.
 
 ---
 
@@ -16,7 +16,7 @@
 ## 📁 Project Structure
 
 ```
-Drop-Control/
+Jumpping/
 ├── index.html
 ├── Java/
 │   └── Script.js
@@ -42,7 +42,7 @@ JavaScript reads and manipulates these elements in real time to create a dynamic
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/yourusername/drop-control.git
+git clone https://github.com/Qubit33/jummping.git
 cd drop-control
 ```
 
