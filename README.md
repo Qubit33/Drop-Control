@@ -1,4 +1,4 @@
-# 🎮 Project: JUMPPING
+# JUMPPING
 
 **Jumpping** is a project built with **HTML + JavaScript**, featuring real-time interactive and synchronized functionalities.
 
