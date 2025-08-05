@@ -14,12 +14,13 @@
     <input type="number" id="prob" step="0.0001" value="0" disabled> Probabilidade<br>
     <div class="resultado" id="resultado">0</div>
     <div class="score" id="score">Score: 0</div>
+    <button id="saveBtn" class="btn-save" onclick="salvarJogo()">💾 Salvar Jogo</button>
     <button id="restartBtn" class="btn-restart" style="display: none;" onclick="restartGame()">Reiniciar Jogo</button>
   </div>
   <canvas id="gameCanvas" width="400" height="200"></canvas>
   <div class="progress-bar" id="progressBar"></div>
   <div class="container">
-    <h1>Drop Control</h1>
+    <h1>Jumpping</h1>
     <div class="language-container">
       <select id="languageSelect" class="language-select">
         <option value="Portuguese">Português</option>
@@ -29,8 +30,9 @@
     </div>
     <button id="playBtn">▶️ Play</button>
     <div class="lyrics" id="lyrics"></div>
-    <audio id="audio" src="Audio/Intro.mp3"></audio>
+    <audio id="audio" src="Audio/Audio.mp3"></audio>
   </div>
+  <script src="Java/Save.js"></script>
   <script src="Java/Script.js"></script>
   <script src="Source/System.html"></script>
   <script>
