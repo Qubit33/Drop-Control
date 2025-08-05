@@ -43,7 +43,7 @@ JavaScript reads and manipulates these elements in real time to create a dynamic
 
 ```bash
 git clone https://github.com/Qubit33/jummping.git
-cd drop-control
+cd Jumpping
 ```
 
 2. Open the `index.html` file directly in your browser.
