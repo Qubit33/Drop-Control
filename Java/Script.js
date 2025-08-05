@@ -82,3 +82,4 @@ fetch('Audio/Portuguese/Dialogues_System_Por.txt')
 languageSelect.addEventListener('change', (e) => {
   loadDialogue(e.target.value);
 });
+
