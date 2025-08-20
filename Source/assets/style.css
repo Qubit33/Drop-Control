@@ -55,6 +55,8 @@ button, .btn-restart, #restartBtn {
 
 #restartBtn {
   display: none;
+  position: relative;
+  margin: 20px auto;
 }
 
 input[type="number"] {
