@@ -1,12 +1,10 @@
-const audio = document.getElementById('audio');
-const playBtn = document.getElementById('playBtn');
 const languageSelect = document.getElementById('languageSelect');
 const lyricsContainer = document.getElementById('lyrics');
 
 let lyrics = [];
 
 function getLangCode(language) {
-  switch(language) {
+  switch (language) {
     case 'Portuguese': return 'Por';
     case 'Spanish': return 'Spa';
     case 'English': return 'Eng';
@@ -14,72 +12,54 @@ function getLangCode(language) {
   }
 }
 
-function loadDialogue(language) {
+async function loadDialogue(language) {
   const fileName = `Audio/${language}/Dialogues_System_${getLangCode(language)}.txt`;
 
-  fetch(fileName)
-    .then(res => {
-      if (!res.ok) throw new Error(`Arquivo não encontrado: ${fileName}`);
-      return res.text();
-    })
-    .then(text => {
-      lyricsContainer.innerHTML = text;
-      lyrics = lyricsContainer.querySelectorAll('p');
-    })
-    .catch(err => {
-      lyricsContainer.innerHTML = `<p style="color:red;">Erro ao carregar: ${err.message}</p>`;
-    });
+  try {
+    const res = await fetch(fileName);
+    if (!res.ok) throw new Error(`Arquivo não encontrado: ${fileName}`);
+    const text = await res.text();
+    lyricsContainer.innerHTML = text;
+    lyrics = lyricsContainer.querySelectorAll('p');
+  } catch (err) {
+    lyricsContainer.innerHTML = `<p style="color:red;">Erro ao carregar: ${err.message}</p>`;
+  }
 }
 
-fetch('Audio/Portuguese/Dialogues_System_Por.txt')
-  .then(res => res.text())
-  .then(html => {
+async function initLyrics() {
+  try {
+    const res = await fetch('Audio/Portuguese/Dialogues_System_Por.txt');
+    const html = await res.text();
     lyricsContainer.innerHTML = html;
     lyrics = lyricsContainer.querySelectorAll('p');
 
-    playBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        playBtn.textContent = '⏸️ Pause';
-      } else {
-        audio.pause();
-        playBtn.textContent = '▶️ Play';
-      }
-    });
-
     audio.addEventListener('timeupdate', () => {
-      let currentTime = audio.currentTime;
+      const currentTime = audio.currentTime;
+      let activeSet = false;
 
-      lyrics.forEach((p, index) => {
-        const time = parseFloat(p.getAttribute('data-time'));
-        const next = lyrics[index + 1];
-        const nextTime = next ? parseFloat(next.getAttribute('data-time')) : Infinity;
+      for (let i = 0; i < lyrics.length; i++) {
+        const time = parseFloat(lyrics[i].getAttribute('data-time'));
+        const nextTime = i + 1 < lyrics.length
+          ? parseFloat(lyrics[i + 1].getAttribute('data-time'))
+          : Infinity;
 
         if (currentTime >= time && currentTime < nextTime) {
-          lyrics.forEach(el => el.classList.remove('active'));
-          p.classList.add('active');
+          if (!activeSet) {
+            lyrics.forEach(el => el.classList.remove('active'));
+            lyrics[i].classList.add('active');
+            activeSet = true;
+          }
         }
-      });
-    });
-
-    audio.addEventListener('ended', () => {
-      playBtn.textContent = '▶️ Play';
-    });
-
-    window.addEventListener('beforeunload', () => {
-      audio.pause();
-      audio.currentTime = 0;
-    });
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        audio.pause();
-        audio.currentTime = 0;
       }
     });
-  });
+
+  } catch (err) {
+    lyricsContainer.innerHTML = `<p style="color:red;">Erro ao carregar: ${err.message}</p>`;
+  }
+}
 
 languageSelect.addEventListener('change', (e) => {
   loadDialogue(e.target.value);
 });
 
+initLyrics();
