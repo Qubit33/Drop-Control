@@ -1,131 +1,135 @@
-let canvas, ctx, player, obstacle;
+let canvas, ctx;
+let player, obstacle;
 let score = 0;
 let gameOver = false;
-let intervalGameLoop;
 let obstaclePassed = false;
-
-function calcular() {
-    if (gameOver || player.jumpping) return;
-
-    const distance = obstacle.x - player.x;
-    const velocidadeObstaculo = 5;
-    const collision = distance / velocidadeObstaculo;
-
-    const climb = 10 / player.gravity / 2;
-
-    let p = 0;
-    
-    if (distance > 0 && distance < 200) {
-        const diff = Math.abs(collision - climb);
-        p = 1 - (diff / climb);
-    }
-
-    p = Math.min(Math.max(p, 0), 1);
-
-    document.getElementById("prob").value = p.toFixed(4);
-
-    const resultadoQubit = Math.random() < p ? 1 : 0;
-    document.getElementById("resultado").innerText = resultadoQubit;
-
-    if (resultadoQubit === 1) jumpping();
-}
+let intervalGameLoop;
 
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("Imput").value = 1;
-    setInterval(calcular, 100);
+  document.getElementById("Imput").value = 1;
+  setInterval(calcular, 100);
 });
 
 function initGame() {
-    canvas = document.getElementById("gameCanvas");
-    ctx = canvas.getContext("2d");
+  canvas = document.getElementById("gameCanvas");
+  ctx = canvas.getContext("2d");
 
-    player = {
-        x: 50,
-        y: 130,
-        width: 20,
-        height: 20,
-        velocityY: 0,
-        gravity: 0.5,
-        jumpping: false
-    };
+  player = {
+    x: 50,
+    y: 130,
+    width: 20,
+    height: 20,
+    velocityY: 0,
+    gravity: 0.5,
+    jumpping: false
+  };
 
-    obstacle = {
-        x: 400,
-        y: 130,
-        width: 20,
-        height: 20
-    };
+  obstacle = {
+    x: 400,
+    y: 130,
+    width: 20,
+    height: 20
+  };
 
-    score = 0;
-    obstaclePassed = false;
-    gameOver = false;
+  score = 0;
+  gameOver = false;
+  obstaclePassed = false;
 
-    document.getElementById("score").innerText = "Score: " + score;
-    document.getElementById("restartBtn").style.display = "none";
+  document.getElementById("score").innerText = "Score: " + score;
+  document.getElementById("restartBtn").style.display = "none";
 
-    resizeCanvas();
-    
-    intervalGameLoop = setInterval(gameLoop, 20);
+  resizeCanvas();
+  initAudioSystem();
+
+  intervalGameLoop = setInterval(gameLoop, 20);
 }
 
-function jumpping() {
-    if (!player.jumpping) {
-        player.velocityY = -10;
-        player.jumpping = true;
-    }
+function calcular() {
+  if (gameOver || player.jumpping) return;
+
+  const distance = obstacle.x - player.x;
+  const velocidadeObstaculo = 5;
+  const collision = distance / velocidadeObstaculo;
+  const climb = 10 / player.gravity / 2;
+
+  let p = 0;
+  if (distance > 0 && distance < 200) {
+    const diff = Math.abs(collision - climb);
+    p = 1 - (diff / climb);
+  }
+
+  p = Math.min(Math.max(p, 0), 1);
+
+  document.getElementById("prob").value = p.toFixed(4);
+
+  const resultadoQubit = Math.random() < p ? 1 : 0;
+  document.getElementById("resultado").innerText = resultadoQubit;
+
+  if (resultadoQubit === 1) jumpping();
 }
 
 function gameLoop() {
-    if (gameOver) return;
+  if (gameOver) return;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    player.velocityY += player.gravity;
-    player.y += player.velocityY;
+  player.velocityY += player.gravity;
+  player.y += player.velocityY;
 
-    if (player.y >= 130) {
-        player.y = 130;
-        player.jumpping = false;
-    }
+  if (player.y >= 130) {
+    player.y = 130;
+    player.jumpping = false;
+  }
 
-    obstacle.x -= 5;
+  obstacle.x -= 5;
+  if (obstacle.x + obstacle.width < 0) {
+    obstacle.x = 400;
+    obstaclePassed = false;
+  }
 
-    if (obstacle.x + obstacle.width < 0) {
-        obstacle.x = 400;
-        obstaclePassed = false;
-    }
+  if (!obstaclePassed && obstacle.x + obstacle.width < player.x) {
+    score++;
+    document.getElementById("score").innerText = "Score: " + score;
+    obstaclePassed = true;
+  }
 
-    if (!obstaclePassed && obstacle.x + obstacle.width < player.x) {
-        score++;
-        document.getElementById("score").innerText = "Score: " + score;
-        obstaclePassed = true;
-    }
+  if (
+    player.x < obstacle.x + obstacle.width &&
+    player.x + player.width > obstacle.x &&
+    player.y + player.height >= obstacle.y
+  ) {
+    gameOver = true;
+    clearInterval(intervalGameLoop);
+    alert("Game Over! Score: " + score);
+    document.getElementById("restartBtn").style.display = "block";
+  }
 
-    if (
-        player.x < obstacle.x + obstacle.width &&
-        player.x + player.width > obstacle.x &&
-        player.y + player.height >= obstacle.y
-    ) {
-        gameOver = true;
-        clearInterval(intervalGameLoop);
-        alert("Game Over! Score: " + score);
-        document.getElementById("restartBtn").style.display = "block";
-    }
+  ctx.fillStyle = "black";
+  ctx.fillRect(player.x, player.y, player.width, player.height);
+  ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+}
 
-    ctx.fillStyle = "black";
-    ctx.fillRect(player.x, player.y, player.width, player.height);
-    ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+function jumpping() {
+  if (!player.jumpping) {
+    player.velocityY = -10;
+    player.jumpping = true;
+  }
 }
 
 function resizeCanvas() {
-    const canvas = document.getElementById("gameCanvas");
-    const scale = Math.min(window.innerWidth / 400, window.innerHeight / 200);
-    canvas.style.transform = `scale(${scale})`;
-    canvas.style.transformOrigin = 'top left';
+  const canvas = document.getElementById("gameCanvas");
+  const scale = Math.min(window.innerWidth / 400, window.innerHeight / 200);
+  canvas.style.transform = `scale(${scale})`;
+  canvas.style.transformOrigin = "top left";
 }
 
-window.addEventListener('resize', resizeCanvas);
+window.addEventListener("resize", resizeCanvas);
 
 function restartGame() {
-    initGame();
+  initGame();
 }
+
+// ========================
+// Eventos
+// ========================
+window.addEventListener("resize", resizeCanvas);
