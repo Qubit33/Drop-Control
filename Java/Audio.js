@@ -1,29 +1,42 @@
 const audio = document.getElementById('audio');
 const playBtn = document.getElementById('playBtn');
+let soundEnabled = true;
 
-playBtn.addEventListener('click', () => {
-  if (audio.paused) {
-    audio.play();
-    playBtn.textContent = '⏸️ Pause';
-  } else {
-    audio.pause();
-    playBtn.textContent = '▶️ Play';
-  }
-});
+function updatePlayButton() {
+  playBtn.textContent = audio.paused ? '▶️ Play' : '⏸️ Pause';
+}
 
-audio.addEventListener('ended', () => {
-  playBtn.textContent = '▶️ Play';
-});
-
-window.addEventListener('beforeunload', () => {
+function stopAudio() {
   audio.pause();
   audio.currentTime = 0;
+  updatePlayButton();
+}
+
+function initAudioSystem() {
+  const btn = document.getElementById("audioToggleBtn");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      soundEnabled = !soundEnabled;
+      btn.innerText = soundEnabled ? "🔊 Som: ON" : "🔇 Som: OFF";
+      if (!soundEnabled) stopAudio();
+    });
+  }
+}
+
+playBtn.addEventListener('click', () => {
+  if (!soundEnabled) return;
+
+  if (audio.paused) {
+    audio.play();
+  } else {
+    audio.pause();
+  }
+  updatePlayButton();
 });
 
+audio.addEventListener('ended', updatePlayButton);
+
+window.addEventListener('beforeunload', stopAudio);
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden) {
-    audio.pause();
-    audio.currentTime = 0;
-    playBtn.textContent = '▶️ Play';
-  }
+  if (document.hidden) stopAudio();
 });
